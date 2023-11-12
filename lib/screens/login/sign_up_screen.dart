@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:project_flutter/main.dart';
-import './sign_up_screen.dart';
+import './sign_in_creen.dart';
 import 'package:project_flutter/constants.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _SignInScreen createState() => _SignInScreen();
+  _SignUpScreen createState() => _SignUpScreen();
 }
 
-class _SignInScreen extends State<SignInScreen> {
+class _SignUpScreen extends State<SignUpScreen> {
   bool _isChecked = true;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -16,6 +16,9 @@ class _SignInScreen extends State<SignInScreen> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
+
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class _SignInScreen extends State<SignInScreen> {
           child: Container(
             margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
             width: 800,
-            height: 600,
+            height: 650,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -42,7 +45,7 @@ class _SignInScreen extends State<SignInScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => MyApp(),
+                            builder: (_) => SignInScreen(),
                           ),
                         );
                       },
@@ -55,14 +58,14 @@ class _SignInScreen extends State<SignInScreen> {
                   Padding(
                       padding: EdgeInsets.only(left: 30, right: 30, top: 30),
                       child: Text(
-                        "Hello",
+                        "Hi!",
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       )),
                   Padding(
                       padding: EdgeInsets.only(left: 30, right: 30, top: 30),
                       child: Text(
-                        "Let's Learn More About Plants",
+                        "Register An Account To Learn More Plants",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -125,39 +128,26 @@ class _SignInScreen extends State<SignInScreen> {
                             SizedBox(
                               height: 20,
                             ),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  children: [
-                                    Checkbox(
-                                      value: _isChecked,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _isChecked = value!;
-                                        });
-                                      },
-                                    ),
-                                    Text('Remember me')
-                                  ],
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    // Navigator.pushReplacement(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (_) => MyApp(),
-                                    //   ),
-                                    // );
-                                  },
-                                  child: Text(
-                                    "Forgot Password",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                )
-                              ],
+                            Text(
+                              "Confirm password",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            TextFormField(
+                              controller: confirmPasswordController,
+                              validator: (value) {
+                                RegExp regex = RegExp(r'^.{6,}$');
+                                if (value!.isEmpty) {
+                                  return ("Vui lòng nhập lại mật khẩu!");
+                                }
+                                if (value != passwordController.text) {
+                                  return ("Mật khẩu không trùng khớp!");
+                                }
+                              },
+                              onSaved: (value) {
+                                confirmPasswordController.text = value!;
+                              },
+                              obscureText: true,
                             ),
                             SizedBox(
                               height: 20,
@@ -165,7 +155,7 @@ class _SignInScreen extends State<SignInScreen> {
                             ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    print("Đăng nhập thành công");
+                                    print("Đăng ký thành công");
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -175,70 +165,31 @@ class _SignInScreen extends State<SignInScreen> {
                                   height: 50,
                                   child: Center(
                                       child: Text(
-                                    "Login",
+                                    "Sign Up",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   )),
                                 )),
-                            // SizedBox(
-                            //   height: 30,
-                            // ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [Text("Or sign in with")],
-                            // ),
-                            // SizedBox(
-                            //   height: 30,
-                            // ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Image.asset(
-                            //       'assets/images/logo_fb.png',
-                            //       width: 40,
-                            //       height: 40,
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //     SizedBox(
-                            //       width: 30,
-                            //     ),
-                            //     Image.asset(
-                            //       'assets/images/logo_talk.png',
-                            //       width: 40,
-                            //       height: 40,
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //     SizedBox(
-                            //       width: 30,
-                            //     ),
-                            //     Image.asset(
-                            //       'assets/images/logo_line.png',
-                            //       width: 40,
-                            //       height: 40,
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   ],
-                            // ),
                             SizedBox(
                               height: 50,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Don't have an account?"),
+                                Text("Do you have an account?"),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => SignUpScreen(),
+                                        builder: (_) => SignInScreen(),
                                       ),
                                     );
                                   },
                                   child: Text(
-                                    "Sign Up",
+                                    "Sign In",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
